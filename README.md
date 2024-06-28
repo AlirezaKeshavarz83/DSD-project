@@ -59,3 +59,30 @@ module REG (
 در ورودی/خروجی اول، دیتای `write_data` در یکی از 4 رجیستر نوشته می‌شود و دیتای رجیستر‌ها در `read_data` نوشته می‌شود. که این دو حالت توسط `we` معین می‌شوند. \
 در ورودی/خروجی دوم. دیتای دو رجیستر `A1` و `A2` همواره در `A1_out` و `A2_out` نوشته می‌شود. و اگر `walu` فعال باشد. خروجی‌های `ALU` که `alu_out1` و `alu_out2` هستند، در `A3` و `A4` نوشته می‌شوند.
 همچنین اگر `walu` فعال باشد ورودی/خروجی های نوع اول غیرفعال می‌شوند.
+- CPU
+```verilog
+module CPU(
+    input clk,
+    input [2:0] op,
+    input [8:0] ram_addr,
+    input [3:0] ram_cnt,
+    input [1:0] reg_sel,
+    input [31:0] ram_input [0:15],
+    output [31:0] ram_output [0:15]
+);
+```
+Inside of this module we use an instance of each of the previous modules, and wire them so we have a working CPU.\
+This CPU supports the 6 following commands:
+
+         opcode 0 : Loads RAM[ram_addr] into REG[reg_sel]
+         opcode 1 : Loads REG[reg_sel] into RAM[ram_addr]
+         opcode 2 : Stores (A1 + A2) in {A4, A3}
+         opcode 3 : Stores (A1 * A2) in {A4, A3}
+         opcode 4 : Loads RAM[ram_addr] into ram_output
+         opcode 5 : Loads ram_input into RAM[ram_addr]
+
+Each operation is done in a single cycle of the clock. (i.e. one posedge followed by a negedge)
+
+## Authors
+- [Alireza Keshavarz](https://github.com/AlirezaKeshavarz83)
+  + Student Number: 401110578
